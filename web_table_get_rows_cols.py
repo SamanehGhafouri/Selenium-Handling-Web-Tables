@@ -23,3 +23,11 @@ class WebTableTest(unittest.TestCase):
 
         num_rows = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr"))
         print("Rows in table are ", num_rows)
+
+    def test_2_num_cols_(self):
+        driver = self.driver
+        driver.get(test_url)
+
+        WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CLASS_NAME, "w3-example")))
+        num_cols = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr[2]/td"))
+        print("Columns in table are ", num_cols)
