@@ -32,6 +32,28 @@ class WebTableTest(unittest.TestCase):
         num_cols = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr[2]/td"))
         print("Columns in table are ", num_cols)
 
+    def test_get_row_col_info(self):
+        driver = self.driver
+        driver.get(test_url)
+
+        WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CLASS_NAME, "w3-example")))
+
+        rows = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr"))
+        columns = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr[2]/td"))
+
+        before_XPath = "//*[@id='customers']/tbody/tr["
+        aftertd_XPath = "]/td["
+        aftertr_XPath = "]"
+
+        for t_row in range(2, (rows + 1)):
+            for t_column in range(1, (columns + 1)):
+                final_xpath = before_XPath + str(t_row) + aftertd_XPath + str(t_column) + aftertr_XPath
+                cell_text = driver.find_element_by_xpath(final_xpath).text
+                print(cell_text)
+            print()
+
+
+
     def tearDown(self):
         self.driver.close()
         self.driver.quit()
