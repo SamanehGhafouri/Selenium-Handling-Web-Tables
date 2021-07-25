@@ -100,6 +100,34 @@ class WebTableTest(unittest.TestCase):
         if not element_found:
             print(f"Search Text {search_text} not found")
 
+    def test_locating_an_element_2(self):
+        driver = self.driver
+        driver.get(test_url)
+
+        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "w3-example")))
+
+        search_text = "Roland Mendel"
+
+        rows = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr"))
+        columns = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr[2]/td"))
+
+        before_xpath = "//*[@id='customers']/tbody/tr["
+        aftertr_xpath = "]/td["
+        aftertd_xpath = "]"
+
+        elem_found = False
+
+        for r in range(2, (rows + 1)):
+            for c in range(1, (columns + 1)):
+                final_xpath = before_xpath + str(r) + aftertr_xpath + str(c) + aftertd_xpath
+                element_txt = driver.find_element_by_xpath(final_xpath).text
+                if element_txt.casefold() == search_text.casefold():
+                    print(f"Search Text {search_text} is present at row {str(r)} and column {str(c)}")
+                    elem_found = True
+                    break
+        if not elem_found:
+            print(f"Search Text {search_text} not found in this table.")
+
     def tearDown(self):
         self.driver.close()
         self.driver.quit()
