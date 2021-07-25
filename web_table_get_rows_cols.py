@@ -52,6 +52,28 @@ class WebTableTest(unittest.TestCase):
                 print(cell_text)
             print()
 
+    def test_read_data_in_rows(self):
+        driver = self.driver
+        driver.get(test_url)
+
+        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "w3-example")))
+
+        rows = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr"))
+        columns = len(driver.find_elements_by_xpath("//*[@id='customers']/tbody/tr[2]/td"))
+
+        before_xpath = "//*[@id='customers']/tbody/tr["
+        aftertr_xpath = "]/td["
+        aftertd_xpath = "]"
+
+        for c in range(1, (columns + 1)):
+            for r in range(2, (rows + 1)):
+                final_xpath = before_xpath + str(r) + aftertr_xpath + str(c) + aftertd_xpath
+                rows_text = driver.find_element_by_xpath(final_xpath).text
+                print(rows_text)
+            print(f"Data present in Rows, col {c}")
+            print()
+
+
 
 
     def tearDown(self):
